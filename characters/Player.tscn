@@ -1,6 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://characters/Player.gd" type="Script" id=1]
+[ext_resource path="res://assets/audio/flashlight_click_off.wav" type="AudioStream" id=2]
+[ext_resource path="res://assets/audio/flashlight_click_on.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/audio/footsteps.ogg" type="AudioStream" id=4]
+[ext_resource path="res://world/OrbCollectSound.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/audio/breathing.ogg" type="AudioStream" id=6]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.7
@@ -24,10 +29,31 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 [node name="Camera" type="Camera" parent="CameraPivot"]
 current = true
 
+[node name="Flashlight" type="SpotLight" parent="CameraPivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.333069, 0 )
+spot_angle = 30.0
+
 [node name="Collider" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Collider"]
 shape = SubResource( 2 )
+
+[node name="Sfx" type="Node" parent="."]
+
+[node name="FlashlightClickOnSound" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource( 3 )
+
+[node name="FlashlightClickOffSound" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource( 2 )
+
+[node name="FootstepsSound" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource( 4 )
+
+[node name="OrbCollectSound" parent="Sfx" instance=ExtResource( 5 )]
+
+[node name="BreathingSound" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource( 6 )
+autoplay = true
 
 [connection signal="area_entered" from="Collider" to="." method="_on_area_entered"]

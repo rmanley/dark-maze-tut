@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://characters/Monster.gd" type="Script" id=1]
+[ext_resource path="res://assets/audio/whispers.ogg" type="AudioStream" id=2]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.6
@@ -66,5 +67,10 @@ shape = SubResource( 6 )
 __meta__ = {
 "_editor_description_": ""
 }
+
+[node name="WhispersSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 2 )
+autoplay = true
+max_distance = 10.0
 
 [connection signal="body_entered" from="HitboxArea" to="." method="_on_body_entered"]
