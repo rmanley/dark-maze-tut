@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://characters/Player.gd" type="Script" id=1]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.7
+
+[sub_resource type="CylinderShape" id=2]
+radius = 0.7
+height = 2.2
 
 [node name="Player" type="KinematicBody"]
 collision_layer = 2
@@ -19,3 +23,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 
 [node name="Camera" type="Camera" parent="CameraPivot"]
 current = true
+
+[node name="Collider" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Collider"]
+shape = SubResource( 2 )
+
+[connection signal="area_entered" from="Collider" to="." method="_on_area_entered"]

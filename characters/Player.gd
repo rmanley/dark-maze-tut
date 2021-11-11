@@ -1,5 +1,7 @@
 extends KinematicBody
 
+signal orb_collected
+
 export var invert_look = false
 onready var look_dir = 1 if invert_look else -1
 #const GRAVITY = -24.8
@@ -13,15 +15,12 @@ var dir = Vector3()
 const DEACCEL= 16
 const MAX_SLOPE_ANGLE = 40
 
-var camera
-var rotation_helper
+onready var camera = $CameraPivot/Camera
+onready var rotation_helper = $CameraPivot
 
 var MOUSE_SENSITIVITY = 0.05
 
 func _ready():
-	camera = $CameraPivot/Camera
-	rotation_helper = $CameraPivot
-
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _physics_process(delta):
@@ -100,3 +99,9 @@ func _input(event):
 		var camera_rot = rotation_helper.rotation_degrees
 		camera_rot.x = clamp(camera_rot.x, -70, 70)
 		rotation_helper.rotation_degrees = camera_rot
+
+
+func _on_area_entered(area):
+	if area.is_in_group('orbs'):
+		area.queue_free()
+		emit_signal('orb_collected')
